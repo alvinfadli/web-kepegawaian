@@ -188,7 +188,7 @@
               </div>
 
               <!--Card content-->
-              <a href="#" class="cardLinks">
+              <a href="pegawai_pengajuan.php" class="cardLinks">
                 <div class="card-body text-center">
                   <h4 class="card-title">Pengajuan</h4>
                   <p class="card-text">
