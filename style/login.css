@@ -1,0 +1,40 @@
+.login,
+.image {
+  min-height: 100vh;
+}
+.bg-image {
+  background-image: url("../images/loginScreen.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+.bg-image-hr {
+  background-image: url("../images/hrLogin.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+.divCenter {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+#linkEl {
+  text-align: center;
+}
+a {
+  text-decoration: none;
+  color: #972c24;
+}
+@media screen and (min-width: 1200px) {
+  .bg-image {
+    display: none;
+  }
+  .smallImage {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .main-title {
+    text-align: center;
+  }
+}
