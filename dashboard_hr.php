@@ -184,7 +184,7 @@
               </div>
 
               <!--Card content-->
-              <a href="#" class="cardLinks">
+              <a href="laporan_pengajuan.php" class="cardLinks">
                 <div class="card-body text-center">
                   <h4 class="card-title">Laporan</h4>
                   <p class="card-text">

@@ -1,22 +1,16 @@
 <?php
 session_start();
-require 'functions.php';
+  require 'functions.php';
 
-if(!isset($_SESSION["login"])){
-  header("Location: main_login.php");
-  exit;
-}
-$pegawaiUsername = $_SESSION['username'];
-$result = mysqli_query($conn, "SELECT idpengajuan, jenis, status, nama from hr join pengajuan using(idhr)
-where idpegawai='$pegawaiUsername' and status='Ditunda';
-");
-$history = mysqli_query($conn, "SELECT idpengajuan, jenis, nama, status from hr join pengajuan using(idhr)
-where idpegawai='$pegawaiUsername' and status<>'Ditunda';
-");
+  if(!isset($_SESSION["loginhr"])){
+    header("Location: hr_login.php");
+    exit;
+  }
 
+  $result = mysqli_query($conn, "SELECT idpengajuan, id, nama, jenis, alasan, tanggalpengajuan FROM
+  pegawai, pengajuan where pegawai.id = pengajuan.idpegawai and status='Ditunda';");
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -79,7 +73,7 @@ where idpegawai='$pegawaiUsername' and status<>'Ditunda';
             </svg>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="dashboard_pegawai.php">Home</a>
+            <a class="dropdown-item" href="dashboard_pegawai.php">Home</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="pegawai_logout.php">Logout</a>
           </div>
@@ -90,29 +84,37 @@ where idpegawai='$pegawaiUsername' and status<>'Ditunda';
 
     <section id="data-pribadi">
       <div class="container">
-        <h3 style="text-align: center">Pengajuan</h3>
+        <h3 style="text-align: center">Laporan Pengajuan</h3>
         <br />
-        <table class="table table-bordered table-light text-center" style="width: 90%; margin: auto;">
+        <table
+          class="table table-bordered table-light text-center"
+          style="width: 90%; margin: auto; margin-bottom:2rem;" 
+        >
           <thead class="thead-light">
             <tr>
               <th scope="col">Id. Pengajuan</th>
+              <th scope="col">Id. Pegawai</th>
+              <th scope="col">Nama Pegawai</th>
               <th scope="col">Jenis</th>
-              <th scope="col">Status</th>
-              <th scope="col">Penanggung Jawab</th>
+              <th scope="col">Alasan</th>
+              <th scope="col">Tanggal</th>
               <th scope="col">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            
-
-            <?php while($row = mysqli_fetch_assoc($result)):?>
-              <tr>
-                <td scope="row" id="tdEl"><?php echo $row['idpengajuan'];?></td>
-                <td id="tdEl"><?php echo $row['jenis'];?></td>
-                <td id="tdEl"><?php echo $row['status'];?></td>
-                <td id="tdEl"><?php echo $row['nama'];?></td>
-                <td><a href="delete_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-danger">Hapus</a></td>
-              </tr>
+          <?php while($row = mysqli_fetch_assoc($result)):?>
+            <tr>
+              <td scope="row" id="tdEl"><?php echo $row['idpengajuan'];?></td>
+              <td id="tdEl"><?php echo $row['id'];?></td>
+              <td id="tdEl"><?php echo $row['nama'];?></td>
+              <td id="tdEl"><?php echo $row['jenis'];?></td>
+              <td id="tdEl"><?php echo $row['alasan'];?></td>
+              <td id="tdEl"><?php echo $row['tanggalpengajuan'];?></td>
+              <td>
+                <a href="terima_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-success">Terima</a> |
+                <a href="tolak_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-danger">Tolak</a>
+              </td>
+            </tr>
             <?php endwhile;?>
             <tr>
               <td>-</td>
@@ -120,68 +122,13 @@ where idpegawai='$pegawaiUsername' and status<>'Ditunda';
               <td>-</td>
               <td>-</td>
               <td>-</td>
+              <td>-</td>
+              <td>-</td>
             </tr>
-
-            <!--<tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr> -->
           </tbody>
         </table>
-        <div id="buttonArea" style="margin-top: 20px; margin-bottom:3rem;">
-          <a href="pegawai_buatpengajuan.php" class="btn btn-secondary" id="editBtn">Buat Pengajuan</a>
-        </div>
-
-        <h3 style="text-align: center">Riwayat Pengajuan</h3>
-        <br />
-        <table class="table table-bordered table-light text-center" style="width: 90%; margin: auto; margin-bottom:2rem;">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">Id. Pengajuan</th>
-              <th scope="col">Jenis</th>
-              <th scope="col">Penanggung Jawab</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-
-            <?php while($row = mysqli_fetch_assoc($history)):?>
-              <tr>
-                <td scope="row" id="tdEl"><?php echo $row['idpengajuan'];?></td>
-                <td id="tdEl"><?php echo $row['jenis'];?></td>
-                <td id="tdEl"><?php echo $row['nama'];?></td>
-                <td id="tdEl"><?php echo $row['status'];?></td>
-              </tr>
-            <?php endwhile;?>
-
-            <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-            </tr>
-
       </div>
     </section>
-
-    <!-- footer -->
-    <!-- <div class="footer">
-      <footer>
-        <p style="padding-top: 20px; color: white">
-          Made by Kelompok 4 TRPL 2A PNP
-        </p>
-      </footer>
-    </div> -->
-
     <!-- footer end -->
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -282,7 +229,7 @@ where idpegawai='$pegawaiUsername' and status<>'Ditunda';
         margin-right: auto;
         width: 20%;
       }
-      #tdEl{
+      #tdEl {
         padding-top: 19px;
       }
     </style>
