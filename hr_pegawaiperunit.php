@@ -1,19 +1,22 @@
 <?php
 session_start();
-require 'functions.php';
+  require 'functions.php';
 
-if(!isset($_SESSION["login"])){
-  header("Location: main_login.php");
-  exit;
-}
-$pegawaiUsername = $_SESSION['username'];
-$result = mysqli_query($conn, "SELECT idpengajuan, jenis, status, nama from hr join pengajuan using(idhr)
-where idpegawai='$pegawaiUsername';
-");
+  if(!isset($_SESSION["loginhr"])){
+    header("Location: hr_login.php");
+    exit;
+  }
 
-
-
+  $units = mysqli_query($conn, "SELECT id_unit, nama_unit FROM unit;");
+  $cek = false;
+  if(isset($_POST["cari"])){
+    $key = $_POST['keyword'];
+    $result = mysqli_query($conn,"SELECT nama, id, nama_unit, pendidikan, alamat FROM
+    unit join pegawai using(id_unit) WHERE nama_unit='$key'");
+    $cek = true;
+  }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,9 +80,9 @@ where idpegawai='$pegawaiUsername';
             </svg>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="dashboard_pegawai.php">Home</a>
+            <a class="dropdown-item" href="dashboard_hr.php">Home</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="pegawai_logout.php">Logout</a>
+            <a class="dropdown-item" href="hr_logout.php">Logout</a>
           </div>
         </div>
       </nav>
@@ -88,59 +91,55 @@ where idpegawai='$pegawaiUsername';
 
     <section id="data-pribadi">
       <div class="container">
-        <h3 style="text-align: center">Pengajuan</h3>
+        <h3 style="text-align: center">Data Unit Pegawai</h3>
         <br />
-        <table class="table table-bordered table-light text-center" style="width: 90%; margin: auto;">
+        <form class="form-inline" id="searchForm" action="" method="POST">
+          <p id="searchTitle">Pilih Unit :</p>
+          <div class="form-group mx-sm-3 mb-2">
+            <select class="form-control" name="keyword">
+              <option>Pilih unit</option>
+              <?php while($options = mysqli_fetch_assoc($units)):?>
+                <option><?= $options['nama_unit'];?></option>
+              <?php endwhile;?>
+            </select>
+          </div>
+          <button type="submit" name="cari" class="btn btn-primary" style="margin-bottom: 7px;">
+            Search
+          </button>
+        </form>
+
+        <table
+          class="table table-light"
+          style="width: 90%; margin: auto; margin-bottom: 2rem"
+        >
           <thead class="thead-light">
             <tr>
-              <th scope="col">Id. Pengajuan</th>
-              <th scope="col">Jenis</th>
-              <th scope="col">Status</th>
-              <th scope="col">Penanggung Jawab</th>
-              <th scope="col">Aksi</th>
+              <th scope="col">Nama</th>
+              <th scope="col">Id</th>
+              <th scope="col">Unit</th>
+              <th scope="col">Pendidikan</th>
+              <th scope="col">Alamat</th>
             </tr>
           </thead>
           <tbody>
-            
-
-            <?php while($row = mysqli_fetch_assoc($result)):?>
-              <tr>
-                <td scope="row" id="tdEl"><?php echo $row['idpengajuan'];?></td>
-                <td id="tdEl"><?php echo $row['jenis'];?></td>
-                <td id="tdEl"><?php echo $row['status'];?></td>
-                <td id="tdEl"><?php echo $row['nama'];?></td>
-                <td><a href="delete_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-danger">Hapus</a></td>
-              </tr>
-            <?php endwhile;?>
-
-            <!--<tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr> -->
+            <?php if($cek == true) :?>
+              <?php while($row = mysqli_fetch_assoc($result)):?>
+                <tr>
+                  <td scope="row" id="tdEl"><?php echo $row['nama'];?></td>
+                  <td id="tdEl"><?php echo $row['id'];?></td>
+                  <td id="tdEl"><?php echo $row['nama_unit'];?></td>
+                  <td id="tdEl"><?php echo $row['pendidikan'];?></td>
+                  <td id="tdEl"><?php echo $row['alamat'];?></td>
+                </tr>
+              <?php endwhile;?>
+            <?php endif;?>
           </tbody>
         </table>
-        <div id="buttonArea" style="margin-top: 20px">
-          <a href="pegawai_buatpengajuan.php" class="btn btn-secondary" id="editBtn">Buat Pengajuan</a>
-        </div>
+        <?php if($cek==false):?>
+          <p style="font-style: italic; text-align:center;">Klik cari untuk menampikan data</p>
+        <?php endif;?>
       </div>
     </section>
-
-    <!-- footer -->
-    <!-- <div class="footer">
-      <footer>
-        <p style="padding-top: 20px; color: white">
-          Made by Kelompok 4 TRPL 2A PNP
-        </p>
-      </footer>
-    </div> -->
 
     <!-- footer end -->
     <script
@@ -241,6 +240,18 @@ where idpegawai='$pegawaiUsername';
         margin-left: auto;
         margin-right: auto;
         width: 20%;
+      }
+      #tdEl {
+        padding-top: 19px;
+      }
+      #searchForm {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 10px;
+      }
+      #searchTitle {
+        font-size: 20px;
+        padding-top: 5px;
       }
       #tdEl{
         padding-top: 19px;

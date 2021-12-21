@@ -40,4 +40,11 @@
         mysqli_query($conn, "DELETE FROM pengajuan WHERE idpengajuan=$id");
         return mysqli_affected_rows($conn);
     }
+
+    function cari($keyword){
+        $query = "SELECT nama, id, nama_unit, pendidikan, alamat FROM
+        unit join pegawai using(id_unit) WHERE id_unit='$keyword'";
+
+        return query($query);
+    }
 ?>

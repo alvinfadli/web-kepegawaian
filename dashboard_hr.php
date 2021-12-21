@@ -70,10 +70,9 @@
             </svg>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="dashboard_hr.php">Home</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="hr_logout.php">Logout</a>
           </div>
         </div>
       </nav>
@@ -156,11 +155,11 @@
               </div>
 
               <!--Card content-->
-              <a href="" class="cardLinks">
+              <a href="hr_pegawaiperunit.php" class="cardLinks">
                 <div class="card-body text-center">
                   <h4 class="card-title">Data Pegawai</h4>
                   <p class="card-text">
-                    Personalisasi laporan data pegawai di halaman ini
+                    Lihat data pegawai berdasarkan unit dihalaman ini
                   </p>
                 </div>
               </a>

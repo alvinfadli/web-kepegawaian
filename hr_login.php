@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if(isset($_SESSION["login"])){
+  header("Location: dashboard_hr.php");
+  exit;
+}
+
 require 'functions.php';
 
 if(isset($_POST["login"])){
@@ -138,7 +143,7 @@ if(isset($_POST["login"])){
                       </button>
                     </div>
                     <div class="form-group mb-5" id="linkEl">
-                      <a href="#">Login sebagai Pegawai</a>
+                      <a href="main_login.php">Login sebagai Pegawai</a>
                     </div>
                   </form>
                 </div>

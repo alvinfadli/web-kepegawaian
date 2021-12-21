@@ -16,8 +16,7 @@
       $alasan = htmlspecialchars($_POST['alasan']);
 
       $query = "INSERT INTO pengajuan (jenis, status, idpegawai, idhr, tanggalpengajuan,alasan)
-        VALUES ('$jenis','$status','$idpegawai','$idhr','$tanggalpengajuan','$alasan');
-      ";
+        VALUES ('$jenis','$status','$idpegawai','$idhr','$tanggalpengajuan','$alasan')";
 
       mysqli_query($conn, $query);
 
