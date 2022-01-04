@@ -56,6 +56,10 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../style/nav.css">
+<<<<<<< HEAD
+=======
+
+>>>>>>> d1a8d0d947e233657ff3d960900284465fe3ff72
 
     <title>Data Pribadi Pegawai</title>
   </head>
@@ -186,6 +190,10 @@
       body {
         font-family: "Roboto", sans-serif;
       }
+<<<<<<< HEAD
+=======
+     
+>>>>>>> d1a8d0d947e233657ff3d960900284465fe3ff72
       #mainTitle {
         font-size: 55px;
         font-weight: bold;

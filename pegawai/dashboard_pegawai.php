@@ -1,6 +1,10 @@
 <?php
   session_start();
   require '../functions.php';
+<<<<<<< HEAD
+=======
+
+>>>>>>> d1a8d0d947e233657ff3d960900284465fe3ff72
   if(!isset($_SESSION["login"])){
     header("Location: ../index.php");
     exit;
