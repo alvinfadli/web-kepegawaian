@@ -2,7 +2,7 @@
 session_start();
 
 if(isset($_SESSION["login"])){
-  header("Location: dashboard_pegawai.php");
+  header("Location: pegawai/dashboard_pegawai.php");
   exit;
 }
 
@@ -18,7 +18,7 @@ if(isset($_POST["login"])){
     $row = mysqli_fetch_assoc($result);
     if($password == $row["password"]){
       $_SESSION["login"] = true;
-      header("Location: dashboard_pegawai.php");
+      header("Location: pegawai/dashboard_pegawai.php");
       exit;
     }
   }
@@ -143,7 +143,7 @@ if(isset($_POST["login"])){
                       </button>
                     </div>
                     <div class="form-group mb-5" id="linkEl">
-                      <a href="hr_login.php">Login sebagai HR</a>
+                      <a href="./hr/hr_login.php">Login sebagai HR</a>
                     </div>
                   </form>
                 </div>

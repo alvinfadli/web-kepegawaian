@@ -1,16 +1,23 @@
 <?php
 session_start();
-  require 'functions.php';
+  require '../functions.php';
 
   if(!isset($_SESSION["loginhr"])){
     header("Location: hr_login.php");
     exit;
   }
 
-  $result = mysqli_query($conn, "SELECT idpengajuan, id, nama, jenis, alasan, tanggalpengajuan FROM
-  pegawai, pengajuan where pegawai.id = pengajuan.idpegawai and status='Ditunda';");
-
+  $units = mysqli_query($conn, "SELECT id_unit, nama_unit FROM unit;");
+  $cek = false;
+  if(isset($_POST["cari"])){
+    $key = $_POST['keyword'];
+    $result = mysqli_query($conn,"SELECT nama, id, nama_unit, pendidikan, alamat FROM
+    unit join pegawai using(id_unit) WHERE nama_unit='$key'");
+    $cek = true;
+  }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,6 +33,7 @@ session_start();
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../style/nav.css">
 
     <title>Data Pribadi Pegawai</title>
   </head>
@@ -33,7 +41,7 @@ session_start();
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Human Resource</a>
+      <a href="dashboard_hr.php" class="navbar-brand">Human Resource</a>
 
         <div class="nav-item dropdown">
           <a
@@ -73,9 +81,9 @@ session_start();
             </svg>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="dashboard_pegawai.php">Home</a>
+            <a class="dropdown-item" href="dashboard_hr.php">Home</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="pegawai_logout.php">Logout</a>
+            <a class="dropdown-item" href="hr_logout.php">Logout</a>
           </div>
         </div>
       </nav>
@@ -84,41 +92,49 @@ session_start();
 
     <section id="data-pribadi">
       <div class="container">
-        <h3 style="text-align: center">Laporan Pengajuan</h3>
+        <h3 style="text-align: center">Data Unit Pegawai</h3>
         <br />
+        <form class="form-inline" id="searchForm" action="" method="POST">
+          <p id="searchTitle">Pilih Unit :</p>
+          <div class="form-group mx-sm-3 mb-2">
+            <select class="form-control" name="keyword">
+              <option>Pilih unit</option>
+              <?php while($options = mysqli_fetch_assoc($units)):?>
+                <option><?= $options['nama_unit'];?></option>
+              <?php endwhile;?>
+            </select>
+          </div>
+          <button type="submit" name="cari" class="btn btn-primary" style="margin-bottom: 7px;">
+            Search
+          </button>
+        </form>
+
         <table
-          class="table table-bordered table-light text-center"
-          style="width: 90%; margin: auto; margin-bottom:2rem;" 
+          class="table table-light"
+          style="width: 90%; margin: auto; margin-bottom: 2rem"
         >
           <thead class="thead-light">
             <tr>
-              <th scope="col">Id. Pengajuan</th>
-              <th scope="col">Id. Pegawai</th>
-              <th scope="col">Nama Pegawai</th>
-              <th scope="col">Jenis</th>
-              <th scope="col">Alasan</th>
-              <th scope="col">Tanggal</th>
-              <th scope="col">Aksi</th>
+              <th scope="col">Nama</th>
+              <th scope="col">Id</th>
+              <th scope="col">Unit</th>
+              <th scope="col">Pendidikan</th>
+              <th scope="col">Alamat</th>
             </tr>
           </thead>
           <tbody>
-          <?php while($row = mysqli_fetch_assoc($result)):?>
+            <?php if($cek == true) :?>
+              <?php while($row = mysqli_fetch_assoc($result)):?>
+                <tr>
+                  <td scope="row" id="tdEl"><?php echo $row['nama'];?></td>
+                  <td id="tdEl"><?php echo $row['id'];?></td>
+                  <td id="tdEl"><?php echo $row['nama_unit'];?></td>
+                  <td id="tdEl"><?php echo $row['pendidikan'];?></td>
+                  <td id="tdEl"><?php echo $row['alamat'];?></td>
+                </tr>
+              <?php endwhile;?>
+            <?php endif;?>
             <tr>
-              <td scope="row" id="tdEl"><?php echo $row['idpengajuan'];?></td>
-              <td id="tdEl"><?php echo $row['id'];?></td>
-              <td id="tdEl"><?php echo $row['nama'];?></td>
-              <td id="tdEl"><?php echo $row['jenis'];?></td>
-              <td id="tdEl"><?php echo $row['alasan'];?></td>
-              <td id="tdEl"><?php echo $row['tanggalpengajuan'];?></td>
-              <td>
-                <a href="terima_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-success">Terima</a> |
-                <a href="tolak_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-danger">Tolak</a>
-              </td>
-            </tr>
-            <?php endwhile;?>
-            <tr>
-              <td>-</td>
-              <td>-</td>
               <td>-</td>
               <td>-</td>
               <td>-</td>
@@ -127,8 +143,12 @@ session_start();
             </tr>
           </tbody>
         </table>
+        <?php if($cek==false):?>
+          <p style="font-style: italic; text-align:center;">Klik cari untuk menampikan data</p>
+        <?php endif;?>
       </div>
     </section>
+
     <!-- footer end -->
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -155,20 +175,6 @@ session_start();
       /* nav style */
       body {
         font-family: "Roboto", sans-serif;
-      }
-      .navbar {
-        padding-top: 0;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 26px;
-      }
-      .nav-link {
-        padding-top: 20px;
-        color: black;
-      }
-      .nav-link:hover {
-        color: lightskyblue;
       }
       #mainTitle {
         font-size: 55px;
@@ -231,6 +237,24 @@ session_start();
       }
       #tdEl {
         padding-top: 19px;
+      }
+      #searchForm {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 10px;
+      }
+      #searchTitle {
+        font-size: 20px;
+        padding-top: 5px;
+      }
+      #tdEl{
+        padding-top: 19px;
+      }
+      td{
+        text-align: center;
+      }
+      th{
+        text-align: center;
       }
     </style>
   </body>

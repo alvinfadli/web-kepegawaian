@@ -1,13 +1,13 @@
 <?php
 
-require 'functions.php';
+require '../functions.php';
 
 $id = $_GET["idpengajuan"];
 
-if(tolakpengajuan($id)> 0){
+if(terimapengajuan($id)> 0){
     echo "
             <script>
-                alert('Pengajuan ditolak!');
+                alert('Pengajuan disetujui!');
                 document.location.href = 'laporan_pengajuan.php';
             </script>
         ";

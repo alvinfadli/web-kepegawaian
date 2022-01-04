@@ -1,9 +1,9 @@
 <?php
   session_start();
-  require 'functions.php';
+  require '../functions.php';
 
   if(!isset($_SESSION["login"])){
-    header("Location: main_login.php");
+    header("Location: ../index.php");
     exit;
   }
   $pegawaiUsername = $_SESSION['username'];
@@ -27,6 +27,8 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="../style/nav.css">
 
     <title>Dashboard Pegawai</title>
   </head>
@@ -34,7 +36,7 @@
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Employees</a>
+        <a href="dashboard_pegawai.php" class="navbar-brand">Employees</a>
 
         <div class="nav-item dropdown">
           <a
@@ -98,7 +100,7 @@
           "
         >
           <div class="logoarea pt-5 pb-5">
-            <p id="mainTitle" style="padding-left: 1rem">
+            <p id="mainTitle" style="padding-left: 2rem">
               Selamat Pagi, <?php echo $_SESSION["namaPegawai"];?>
             </p>
           </div>
@@ -116,7 +118,7 @@
             justify-content-center
           "
         >
-          <img src="./images/pegawaiMain.jpg" alt="" style="width: 100%" />
+          <img src="../images/pegawaiMain.jpg" alt="" style="width: 100%" />
         </div>
       </div>
     </div>
@@ -137,19 +139,19 @@
       <div class="container">
         <div class="row text-center">
           <div class="col">
-            <h2 style="font-weight: bold">Menu</h2>
+            <h2 style="font-weight: bold">MENU</h2>
           </div>
         </div>
         <br />
-        <div class="card-deck row justify-content-center">
-          <div class="col-xs-12 col-sm-6 col-md-5">
+        <div class="card-deck row justify-content-center" data-aos="fade-up" data-aos-duration="1200">
+          <div class="col-xs-12 col-sm-6 col-md-4">
             <!-- Card -->
             <div class="card">
               <!--Card image-->
               <div class="view overlay">
                 <img
                   class="card-img-top"
-                  src="./images/pegawaiDataPribadi.jpg"
+                  src="../images/pegawaiDataPribadi.jpg"
                   alt="Card image cap"
                   style="border: 0.5px solid white; border-radius: 50px"
                 />
@@ -171,14 +173,14 @@
             <!-- Card -->
           </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-5">
+          <div class="col-xs-12 col-sm-6 col-md-4">
             <!-- Card -->
             <div class="card mb-4">
               <!--Card image-->
               <div class="view overlay">
                 <img
                   class="card-img-top"
-                  src="./images/pegawaiPengajuan.png"
+                  src="../images/pegawaiPengajuan.png"
                   alt="Card image cap"
                   style="border: 0.5px solid white; border-radius: 50px"
                 />
@@ -229,6 +231,10 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
       * {
@@ -239,20 +245,6 @@
       /* nav style */
       body {
         font-family: "Roboto", sans-serif;
-      }
-      .navbar {
-        padding-top: 0;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 26px;
-      }
-      .nav-link {
-        padding-top: 20px;
-        color: black;
-      }
-      .nav-link:hover {
-        color: lightskyblue;
       }
       #mainTitle {
         font-size: 55px;

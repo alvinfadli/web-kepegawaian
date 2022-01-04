@@ -6,7 +6,7 @@ if(isset($_SESSION["login"])){
   exit;
 }
 
-require 'functions.php';
+require '../functions.php';
 
 if(isset($_POST["login"])){
   $username = $_POST["username"];
@@ -41,7 +41,7 @@ if(isset($_POST["login"])){
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./style/login.css" />
+    <link rel="stylesheet" href="../style/login.css" />
     <title>Website Kepegawaian</title>
   </head>
   <body>
@@ -59,7 +59,7 @@ if(isset($_POST["login"])){
                     Website Kepegawaian
                   </h3>
                   <div class="smallImage">
-                    <img src="./images/hrLogin.jpg" width="100%" alt="" />
+                    <img src="../images/hrLogin.jpg" width="100%" alt="" />
                   </div>
                   <form action="" method="POST">
                     <div class="form-goup mb-3 divCenter">
@@ -143,7 +143,7 @@ if(isset($_POST["login"])){
                       </button>
                     </div>
                     <div class="form-group mb-5" id="linkEl">
-                      <a href="main_login.php">Login sebagai Pegawai</a>
+                      <a href="../index.php">Login sebagai Pegawai</a>
                     </div>
                   </form>
                 </div>
