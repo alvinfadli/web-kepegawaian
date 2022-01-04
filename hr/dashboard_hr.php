@@ -80,7 +80,6 @@
       </nav>
     </section>
     <!-- navbar end -->
-
     <!-- banner -->
     <div class="d-md-flex h-md-100 align-items-center" style="display: block">
       <!-- First Half -->

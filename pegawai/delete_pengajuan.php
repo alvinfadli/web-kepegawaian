@@ -3,7 +3,6 @@
 require 'functions.php';
 
 $id = $_GET["idpengajuan"];
-
 if(hapus($id)> 0){
     echo "
             <script>

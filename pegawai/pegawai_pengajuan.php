@@ -153,7 +153,6 @@ where idpegawai='$pegawaiUsername' and status<>'Ditunda';
             </tr>
           </thead>
           <tbody>
-            
 
             <?php while($row = mysqli_fetch_assoc($history)):?>
               <tr>

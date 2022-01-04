@@ -6,12 +6,10 @@
     header("Location: ../index.php");
     exit;
   }
-
   $pegawai = query("SELECT id, nama, alamat, tempatlahir, tanggallahir, pendidikan, namainstitusi, nama_unit
   FROM unit JOIN pegawai USING(id_unit) WHERE id='$_SESSION[username]'");
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

@@ -5,7 +5,6 @@ if(isset($_SESSION["login"])){
   header("Location: pegawai/dashboard_pegawai.php");
   exit;
 }
-
 require 'functions.php';
 
 if(isset($_POST["login"])){
@@ -22,13 +21,9 @@ if(isset($_POST["login"])){
       exit;
     }
   }
-
   $error = true;
-
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>

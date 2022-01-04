@@ -57,7 +57,6 @@
     />
     <link rel="stylesheet" href="../style/nav.css">
 
-
     <title>Data Pribadi Pegawai</title>
   </head>
   <body>
@@ -187,7 +186,6 @@
       body {
         font-family: "Roboto", sans-serif;
       }
-     
       #mainTitle {
         font-size: 55px;
         font-weight: bold;

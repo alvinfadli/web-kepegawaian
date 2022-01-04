@@ -9,7 +9,6 @@ session_start();
 
   $result = mysqli_query($conn, "SELECT idpengajuan, id, nama, jenis, alasan, tanggalpengajuan FROM
   pegawai, pengajuan where pegawai.id = pengajuan.idpegawai and status='Ditunda';");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -41,7 +41,6 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../style/nav.css">
-
     <title>Data Pribadi Pegawai</title>
   </head>
   <body>

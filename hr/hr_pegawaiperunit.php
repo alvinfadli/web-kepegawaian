@@ -42,7 +42,6 @@ session_start();
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
       <a href="dashboard_hr.php" class="navbar-brand">Human Resource</a>
-
         <div class="nav-item dropdown">
           <a
             class="nav-link"

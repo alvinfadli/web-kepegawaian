@@ -19,5 +19,4 @@ if(tolakpengajuan($id)> 0){
             </script>
         ";
 }
-
 ?>

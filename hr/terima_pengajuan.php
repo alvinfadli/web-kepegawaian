@@ -19,5 +19,4 @@ if(terimapengajuan($id)> 0){
             </script>
         ";
 }
-
 ?>
