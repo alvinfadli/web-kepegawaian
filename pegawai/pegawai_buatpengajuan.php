@@ -1,9 +1,9 @@
 <?php
   session_start();
-  require 'functions.php';
+  require '../functions.php';
 
   if(!isset($_SESSION["login"])){
-    header("Location: main_login.php");
+    header("Location: ../index.php");
     exit;
   }
 
@@ -55,6 +55,8 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../style/nav.css">
+
 
     <title>Data Pribadi Pegawai</title>
   </head>
@@ -62,7 +64,7 @@
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Human Resource</a>
+      <a href="dashboard_pegawai.php" class="navbar-brand">Employees</a>
 
         <div class="nav-item dropdown">
           <a
@@ -114,7 +116,7 @@
     <section id="edit-pribadi">
       <div class="container">
         <h3 style="text-align: center">Buat Pengajuan</h3>
-        <img src="./images/pegawaiPengajuan.png" alt="user" width="30%"/>
+        <img src="../images/pegawaiPengajuan.png" alt="user" width="30%"/>
         <br />
         <div style="width: 70%; margin: auto">
           <form action="" method="POST">
@@ -185,20 +187,7 @@
       body {
         font-family: "Roboto", sans-serif;
       }
-      .navbar {
-        padding-top: 0;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 26px;
-      }
-      .nav-link {
-        padding-top: 20px;
-        color: black;
-      }
-      .nav-link:hover {
-        color: lightskyblue;
-      }
+     
       #mainTitle {
         font-size: 55px;
         font-weight: bold;

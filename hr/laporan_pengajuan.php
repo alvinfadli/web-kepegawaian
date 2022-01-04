@@ -1,18 +1,16 @@
 <?php
-  session_start();
-  require 'functions.php';
+session_start();
+  require '../functions.php';
 
-  if(!isset($_SESSION["login"])){
-    header("Location: main_login.php");
+  if(!isset($_SESSION["loginhr"])){
+    header("Location: hr_login.php");
     exit;
   }
 
-  $pegawai = query("SELECT id, nama, alamat, tempatlahir, tanggallahir, pendidikan, namainstitusi, nama_unit
-  FROM unit JOIN pegawai USING(id_unit) WHERE id='$_SESSION[username]'");
+  $result = mysqli_query($conn, "SELECT idpengajuan, id, nama, jenis, alasan, tanggalpengajuan FROM
+  pegawai, pengajuan where pegawai.id = pengajuan.idpegawai and status='Ditunda';");
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,6 +26,7 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../style/nav.css">
 
     <title>Data Pribadi Pegawai</title>
   </head>
@@ -35,7 +34,7 @@
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Human Resource</a>
+      <a href="dashboard_hr.php" class="navbar-brand">Human Resource</a>
 
         <div class="nav-item dropdown">
           <a
@@ -75,9 +74,9 @@
             </svg>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="dashboard_pegawai.php">Home</a>
+            <a class="dropdown-item" href="dashboard_hr.php">Home</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="pegawai_logout.php">Logout</a>
+            <a class="dropdown-item" href="hr_logout.php">Logout</a>
           </div>
         </div>
       </nav>
@@ -86,75 +85,51 @@
 
     <section id="data-pribadi">
       <div class="container">
-        <h3 style="text-align: center">Data Pribadi</h3>
-        <img src="./images/user1.jpg" alt="user" width="17%" id="userProfile" />
+        <h3 style="text-align: center">Laporan Pengajuan</h3>
         <br />
-        <div class="data">
-          <table width="70%" id="biodata">
-            <?php foreach($pegawai as $row):?>
-              <tr>
-                <td>Id Pegawai</td>
-                <td>:</td>
-                <td><?= $row["id"];?></td>
-              </tr>
-              <tr>
-                <td>Nama</td>
-                <td>:</td>
-                <td><?= $row["nama"];?></td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>
-                <?= $row["alamat"];?>
-                </td>
-              </tr>
-              <tr>
-                <td>Tempat Lahir</td>
-                <td>:</td>
-                <td><?= $row["tempatlahir"];?></td>
-              </tr>
-              <tr>
-                <td>Tanggal Lahir</td>
-                <td>:</td>
-                <td><?= $row["tanggallahir"];?></td>
-              </tr>
-              <tr>
-                <td>Unit</td>
-                <td>:</td>
-                <td><?= $row["nama_unit"];?></td>
-              </tr>
-              <tr>
-                <td>Pendidikan terakhir</td>
-                <td>:</td>
-                <td><?= $row["pendidikan"];?></td>
-              </tr>
-              <tr>
-                <td>Nama institusi</td>
-                <td>:</td>
-                <td><?= $row["namainstitusi"];?></td>
-              </tr>
-            <?php endforeach;?>
-          </table>
-        </div>
-        <div id="buttonArea">
-          <a href="edit_data_pegawai.php?id=<?=$row["id"];?>" class="btn btn-secondary" id="editBtn">Edit Data</a>
-          <!-- <button type="button" class="btn btn-secondary" id="editBtn">
-            Edit Data
-          </button> -->
-        </div>
+        <table
+          class="table table-bordered table-light text-center"
+          style="width: 90%; margin: auto; margin-bottom:2rem;" 
+        >
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Id. Pengajuan</th>
+              <th scope="col">Id. Pegawai</th>
+              <th scope="col">Nama Pegawai</th>
+              <th scope="col">Jenis</th>
+              <th scope="col">Alasan</th>
+              <th scope="col">Tanggal</th>
+              <th scope="col">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php while($row = mysqli_fetch_assoc($result)):?>
+            <tr>
+              <td scope="row" id="tdEl"><?php echo $row['idpengajuan'];?></td>
+              <td id="tdEl"><?php echo $row['id'];?></td>
+              <td id="tdEl"><?php echo $row['nama'];?></td>
+              <td id="tdEl"><?php echo $row['jenis'];?></td>
+              <td id="tdEl"><?php echo $row['alasan'];?></td>
+              <td id="tdEl"><?php echo $row['tanggalpengajuan'];?></td>
+              <td>
+                <a href="terima_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-success">Terima</a> |
+                <a href="tolak_pengajuan.php?idpengajuan=<?php echo $row['idpengajuan'];?>" class="btn btn-danger">Tolak</a>
+              </td>
+            </tr>
+            <?php endwhile;?>
+            <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
-
-    <!-- footer -->
-    <div class="footer">
-      <footer>
-        <p style="padding-top: 20px; color: white">
-          Made by Kelompok 4 TRPL 2A PNP
-        </p>
-      </footer>
-    </div>
-
     <!-- footer end -->
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -182,20 +157,6 @@
       body {
         font-family: "Roboto", sans-serif;
       }
-      .navbar {
-        padding-top: 0;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 26px;
-      }
-      .nav-link {
-        padding-top: 20px;
-        color: black;
-      }
-      .nav-link:hover {
-        color: lightskyblue;
-      }
       #mainTitle {
         font-size: 55px;
         font-weight: bold;
@@ -220,7 +181,6 @@
         padding-bottom: 1px;
         background-color: black;
         text-align: center;
-        bottom: 0;
       }
       img {
         display: block;
@@ -229,19 +189,13 @@
         border: 1px solid white;
         border-radius: 30px;
       }
-      table {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        border-collapse: separate;
-        border-spacing: 10px 15px;
-      }
       .container {
         background-color: #d4ecfc;
         padding-top: 20px;
         border: 1px solid hsl(204, 87%, 91%);
         border-radius: 30px;
         margin-bottom: 2rem;
+        margin-top: 3rem;
       }
       #biodata {
         margin: 0 auto;
@@ -261,6 +215,9 @@
         margin-left: auto;
         margin-right: auto;
         width: 20%;
+      }
+      #tdEl {
+        padding-top: 19px;
       }
     </style>
   </body>

@@ -1,29 +1,17 @@
 <?php
   session_start();
-  require 'functions.php';
+  require '../functions.php';
 
   if(!isset($_SESSION["login"])){
-    header("Location: main_login.php");
+    header("Location: ../index.php");
     exit;
   }
 
-  $id = $_GET["id"];
-  
-  $pgw = query("SELECT *FROM pegawai WHERE id='$id'")[0];
-
-  if(isset($_POST["submit"])){
-    if(edit($_POST)>0){
-      echo "<script>alert('Data berhasil diubah');
-      document.location.href='pegawai_data_pribadi.php'
-      </script> ";
-    } else{
-      echo "<script>alert('Data gagal diubah');
-      document.location.href='pegawai_data_pribadi.php'
-      </script> ";
-    }
-  }
+  $pegawai = query("SELECT id, nama, alamat, tempatlahir, tanggallahir, pendidikan, namainstitusi, nama_unit
+  FROM unit JOIN pegawai USING(id_unit) WHERE id='$_SESSION[username]'");
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,14 +28,14 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-
+    <link rel="stylesheet" href="../style/nav.css">
     <title>Data Pribadi Pegawai</title>
   </head>
   <body>
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Human Resource</a>
+      <a href="dashboard_pegawai.php" class="navbar-brand">Employees</a>
 
         <div class="nav-item dropdown">
           <a
@@ -96,90 +84,64 @@
     </section>
     <!-- navbar end -->
 
-    <section id="edit-pribadi">
+    <section id="data-pribadi">
       <div class="container">
-        <h3 style="text-align: center">Edit Data Pribadi</h3>
-        <img src="./images/user1.jpg" alt="user" width="17%" id="userProfile" />
+        <h3 style="text-align: center">Data Pribadi</h3>
+        <img src="../images/user1.jpg" alt="user" width="17%" id="userProfile" />
         <br />
-        <div style="width: 70%; margin: auto">
-          <form action="" method="POST">
-            <input type="hidden" name="id" value="<?= $pgw['id'];?>">
-            <div class="form-group">
-              <label for="nama">Nama</label>
-              <input
-                type="text"
-                name="nama"
-                class="form-control"
-                id="nama"
-                placeholder="Masukkan nama"
-                required
-                value="<?= $pgw["nama"];?>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="alamat">Alamat</label>
-              <input
-                type="text"
-                name="alamat"
-                class="form-control"
-                id="alamat"
-                placeholder="Masukkan alamat"
-                required
-                value="<?= $pgw["alamat"];?>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="tempatlahir">Tempat Lahir</label>
-              <input
-                type="text"
-                name="tempatlahir"
-                class="form-control"
-                id="tempatlahir"
-                placeholder="Masukkan tempat lahir"
-                required
-                value="<?= $pgw["tempatlahir"];?>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="tanggallahir">Tanggal Lahir</label>
-              <input
-                type="date"
-                name="tanggallahir"
-                class="form-control"
-                id="tanggallahir"
-                placeholder="Masukkan tanggal lahir"
-                required
-                value="<?= $pgw["tanggallahir"];?>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="pendidikan">Pendidikan Terakhir</label>
-              <input
-                type="text"
-                name="pendidikan"
-                class="form-control"
-                id="pendidikan"
-                placeholder="Masukkan pendidikan terakhir"
-                required
-                value="<?= $pgw["pendidikan"];?>"
-              />
-            </div>
-            <div class="form-group">
-              <label for="namainstitusi">Insitusi</label>
-              <input
-                type="text"
-                name="namainstitusi"
-                class="form-control"
-                id="namainstitusi"
-                placeholder="Masukkan insitusi"
-                required
-                value="<?= $pgw["namainstitusi"];?>"
-              />
-            </div>
-            <button type="submit" class="btn btn-success save-btn" name="submit" id="submit">
-              Simpan
-            </button>
-          </form>
+        <div class="data">
+          <table width="70%" id="biodata">
+            <?php foreach($pegawai as $row):?>
+              <tr>
+                <td>Id Pegawai</td>
+                <td>:</td>
+                <td><?= $row["id"];?></td>
+              </tr>
+              <tr>
+                <td>Nama</td>
+                <td>:</td>
+                <td><?= $row["nama"];?></td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td>
+                <?= $row["alamat"];?>
+                </td>
+              </tr>
+              <tr>
+                <td>Tempat Lahir</td>
+                <td>:</td>
+                <td><?= $row["tempatlahir"];?></td>
+              </tr>
+              <tr>
+                <td>Tanggal Lahir</td>
+                <td>:</td>
+                <td><?= $row["tanggallahir"];?></td>
+              </tr>
+              <tr>
+                <td>Unit</td>
+                <td>:</td>
+                <td><?= $row["nama_unit"];?></td>
+              </tr>
+              <tr>
+                <td>Pendidikan terakhir</td>
+                <td>:</td>
+                <td><?= $row["pendidikan"];?></td>
+              </tr>
+              <tr>
+                <td>Nama institusi</td>
+                <td>:</td>
+                <td><?= $row["namainstitusi"];?></td>
+              </tr>
+            <?php endforeach;?>
+          </table>
+        </div>
+        <div id="buttonArea">
+          <a href="edit_data_pegawai.php?id=<?=$row["id"];?>" class="btn btn-secondary" id="editBtn">Edit Data</a>
+          <!-- <button type="button" class="btn btn-secondary" id="editBtn">
+            Edit Data
+          </button> -->
         </div>
       </div>
     </section>
@@ -219,20 +181,6 @@
       /* nav style */
       body {
         font-family: "Roboto", sans-serif;
-      }
-      .navbar {
-        padding-top: 0;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 26px;
-      }
-      .nav-link {
-        padding-top: 20px;
-        color: black;
-      }
-      .nav-link:hover {
-        color: lightskyblue;
       }
       #mainTitle {
         font-size: 55px;
@@ -294,13 +242,11 @@
         margin: auto;
         margin-bottom: 20px;
       }
-      .save-btn {
+      #editBtn {
         display: block;
         margin-left: auto;
         margin-right: auto;
         width: 20%;
-        margin-bottom: 25px;
-        margin-top: 20px;
       }
     </style>
   </body>

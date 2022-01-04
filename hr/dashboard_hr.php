@@ -1,6 +1,6 @@
 <?php
   session_start();
-  require 'functions.php';
+  require '../functions.php';
 
   if(!isset($_SESSION["loginhr"])){
     header("Location: hr_login.php");
@@ -23,6 +23,8 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="../style/nav.css">
 
     <title>Human Resource</title>
   </head>
@@ -30,7 +32,7 @@
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Human Resource</a>
+      <a href="dashboard_hr.php" class="navbar-brand">Human Resource</a>
 
         <div class="nav-item dropdown">
           <a
@@ -94,7 +96,7 @@
           "
         >
           <div class="logoarea pt-5 pb-5">
-            <p id="mainTitle" style="padding-left: 1rem">
+            <p id="mainTitle" style="padding-left: 2rem">
               Selamat Pagi, <?php echo $_SESSION["namaHR"];?>
             </p>
           </div>
@@ -112,7 +114,7 @@
             justify-content-center
           "
         >
-          <img src="./images/hrMain.jpg" alt="" style="width: 100%" />
+          <img src="../images/hrMain.jpg" alt="" style="width: 100%" />
         </div>
       </div>
     </div>
@@ -137,15 +139,15 @@
           </div>
         </div>
         <br />
-        <div class="card-deck row justify-content-center">
-          <div class="col-xs-12 col-sm-6 col-md-5">
+        <div class="card-deck row justify-content-center" data-aos="fade-up" data-aos-duration="1200">
+          <div class="col-xs-12 col-sm-6 col-md-4">
             <!-- Card -->
             <div class="card">
               <!--Card image-->
               <div class="view overlay">
                 <img
                   class="card-img-top"
-                  src="./images/pegawaiPerUnit.jpg"
+                  src="../images/pegawaiPerUnit.jpg"
                   alt="Card image cap"
                   style="border: 0.5px solid white; border-radius: 50px"
                 />
@@ -167,14 +169,14 @@
             <!-- Card -->
           </div>
 
-          <div class="col-xs-12 col-sm-6 col-md-5">
+          <div class="col-xs-12 col-sm-6 col-md-4">
             <!-- Card -->
             <div class="card mb-4">
               <!--Card image-->
               <div class="view overlay">
                 <img
                   class="card-img-top"
-                  src="./images/hrPengajuan.jpg"
+                  src="../images/hrPengajuan.jpg"
                   alt="Card image cap"
                   style="border: 0.5px solid white; border-radius: 50px"
                 />
@@ -226,6 +228,10 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
       * {

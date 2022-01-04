@@ -1,22 +1,29 @@
 <?php
-session_start();
-  require 'functions.php';
+  session_start();
+  require '../functions.php';
 
-  if(!isset($_SESSION["loginhr"])){
-    header("Location: hr_login.php");
+  if(!isset($_SESSION["login"])){
+    header("Location: ../index.php");
     exit;
   }
 
-  $units = mysqli_query($conn, "SELECT id_unit, nama_unit FROM unit;");
-  $cek = false;
-  if(isset($_POST["cari"])){
-    $key = $_POST['keyword'];
-    $result = mysqli_query($conn,"SELECT nama, id, nama_unit, pendidikan, alamat FROM
-    unit join pegawai using(id_unit) WHERE nama_unit='$key'");
-    $cek = true;
-  }
-?>
+  $id = $_GET["id"];
+  
+  $pgw = query("SELECT *FROM pegawai WHERE id='$id'")[0];
 
+  if(isset($_POST["submit"])){
+    if(edit($_POST)>0){
+      echo "<script>alert('Data berhasil diubah');
+      document.location.href='pegawai_data_pribadi.php'
+      </script> ";
+    } else{
+      echo "<script>alert('Data gagal diubah');
+      document.location.href='pegawai_data_pribadi.php'
+      </script> ";
+    }
+  }
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +40,7 @@ session_start();
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../style/nav.css">
 
     <title>Data Pribadi Pegawai</title>
   </head>
@@ -40,7 +48,7 @@ session_start();
     <!-- navbar -->
     <section>
       <nav class="navbar navbar-white bg-white justify-content-between">
-        <a href="#" class="navbar-brand" style="color: black">Human Resource</a>
+      <a href="dashboard_pegawai.php" class="navbar-brand">Employees</a>
 
         <div class="nav-item dropdown">
           <a
@@ -80,66 +88,111 @@ session_start();
             </svg>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="dashboard_hr.php">Home</a>
+          <a class="dropdown-item" href="dashboard_pegawai.php">Home</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="hr_logout.php">Logout</a>
+            <a class="dropdown-item" href="pegawai_logout.php">Logout</a>
           </div>
         </div>
       </nav>
     </section>
     <!-- navbar end -->
 
-    <section id="data-pribadi">
+    <section id="edit-pribadi">
       <div class="container">
-        <h3 style="text-align: center">Data Unit Pegawai</h3>
+        <h3 style="text-align: center">Edit Data Pribadi</h3>
+        <img src="../images/user1.jpg" alt="user" width="17%" id="userProfile" />
         <br />
-        <form class="form-inline" id="searchForm" action="" method="POST">
-          <p id="searchTitle">Pilih Unit :</p>
-          <div class="form-group mx-sm-3 mb-2">
-            <select class="form-control" name="keyword">
-              <option>Pilih unit</option>
-              <?php while($options = mysqli_fetch_assoc($units)):?>
-                <option><?= $options['nama_unit'];?></option>
-              <?php endwhile;?>
-            </select>
-          </div>
-          <button type="submit" name="cari" class="btn btn-primary" style="margin-bottom: 7px;">
-            Search
-          </button>
-        </form>
-
-        <table
-          class="table table-light"
-          style="width: 90%; margin: auto; margin-bottom: 2rem"
-        >
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">Nama</th>
-              <th scope="col">Id</th>
-              <th scope="col">Unit</th>
-              <th scope="col">Pendidikan</th>
-              <th scope="col">Alamat</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if($cek == true) :?>
-              <?php while($row = mysqli_fetch_assoc($result)):?>
-                <tr>
-                  <td scope="row" id="tdEl"><?php echo $row['nama'];?></td>
-                  <td id="tdEl"><?php echo $row['id'];?></td>
-                  <td id="tdEl"><?php echo $row['nama_unit'];?></td>
-                  <td id="tdEl"><?php echo $row['pendidikan'];?></td>
-                  <td id="tdEl"><?php echo $row['alamat'];?></td>
-                </tr>
-              <?php endwhile;?>
-            <?php endif;?>
-          </tbody>
-        </table>
-        <?php if($cek==false):?>
-          <p style="font-style: italic; text-align:center;">Klik cari untuk menampikan data</p>
-        <?php endif;?>
+        <div style="width: 70%; margin: auto">
+          <form action="" method="POST">
+            <input type="hidden" name="id" value="<?= $pgw['id'];?>">
+            <div class="form-group">
+              <label for="nama">Nama</label>
+              <input
+                type="text"
+                name="nama"
+                class="form-control"
+                id="nama"
+                placeholder="Masukkan nama"
+                required
+                value="<?= $pgw["nama"];?>"
+              />
+            </div>
+            <div class="form-group">
+              <label for="alamat">Alamat</label>
+              <input
+                type="text"
+                name="alamat"
+                class="form-control"
+                id="alamat"
+                placeholder="Masukkan alamat"
+                required
+                value="<?= $pgw["alamat"];?>"
+              />
+            </div>
+            <div class="form-group">
+              <label for="tempatlahir">Tempat Lahir</label>
+              <input
+                type="text"
+                name="tempatlahir"
+                class="form-control"
+                id="tempatlahir"
+                placeholder="Masukkan tempat lahir"
+                required
+                value="<?= $pgw["tempatlahir"];?>"
+              />
+            </div>
+            <div class="form-group">
+              <label for="tanggallahir">Tanggal Lahir</label>
+              <input
+                type="date"
+                name="tanggallahir"
+                class="form-control"
+                id="tanggallahir"
+                placeholder="Masukkan tanggal lahir"
+                required
+                value="<?= $pgw["tanggallahir"];?>"
+              />
+            </div>
+            <div class="form-group">
+              <label for="pendidikan">Pendidikan Terakhir</label>
+              <input
+                type="text"
+                name="pendidikan"
+                class="form-control"
+                id="pendidikan"
+                placeholder="Masukkan pendidikan terakhir"
+                required
+                value="<?= $pgw["pendidikan"];?>"
+              />
+            </div>
+            <div class="form-group">
+              <label for="namainstitusi">Insitusi</label>
+              <input
+                type="text"
+                name="namainstitusi"
+                class="form-control"
+                id="namainstitusi"
+                placeholder="Masukkan insitusi"
+                required
+                value="<?= $pgw["namainstitusi"];?>"
+              />
+            </div>
+            <button type="submit" class="btn btn-success save-btn" name="submit" id="submit">
+              Simpan
+            </button>
+          </form>
+        </div>
       </div>
     </section>
+
+    <!-- footer -->
+    <div class="footer">
+      <footer>
+        <p style="padding-top: 20px; color: white">
+          Made by Kelompok 4 TRPL 2A PNP
+        </p>
+      </footer>
+    </div>
 
     <!-- footer end -->
     <script
@@ -168,20 +221,6 @@ session_start();
       body {
         font-family: "Roboto", sans-serif;
       }
-      .navbar {
-        padding-top: 0;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 26px;
-      }
-      .nav-link {
-        padding-top: 20px;
-        color: black;
-      }
-      .nav-link:hover {
-        color: lightskyblue;
-      }
       #mainTitle {
         font-size: 55px;
         font-weight: bold;
@@ -206,6 +245,7 @@ session_start();
         padding-bottom: 1px;
         background-color: black;
         text-align: center;
+        bottom: 0;
       }
       img {
         display: block;
@@ -214,13 +254,19 @@ session_start();
         border: 1px solid white;
         border-radius: 30px;
       }
+      table {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-collapse: separate;
+        border-spacing: 10px 15px;
+      }
       .container {
         background-color: #d4ecfc;
         padding-top: 20px;
         border: 1px solid hsl(204, 87%, 91%);
         border-radius: 30px;
         margin-bottom: 2rem;
-        margin-top: 3rem;
       }
       #biodata {
         margin: 0 auto;
@@ -235,26 +281,13 @@ session_start();
         margin: auto;
         margin-bottom: 20px;
       }
-      #editBtn {
+      .save-btn {
         display: block;
         margin-left: auto;
         margin-right: auto;
         width: 20%;
-      }
-      #tdEl {
-        padding-top: 19px;
-      }
-      #searchForm {
-        width: 90%;
-        margin: auto;
-        margin-bottom: 10px;
-      }
-      #searchTitle {
-        font-size: 20px;
-        padding-top: 5px;
-      }
-      #tdEl{
-        padding-top: 19px;
+        margin-bottom: 25px;
+        margin-top: 20px;
       }
     </style>
   </body>
