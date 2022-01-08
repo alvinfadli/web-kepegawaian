@@ -96,7 +96,7 @@ if(isset($_POST["login"])){
                         class="
                           form-control
                           rounded-pill
-                          border-0
+                          border-1
                           shadow-sm
                           px-4
                         "
@@ -117,7 +117,7 @@ if(isset($_POST["login"])){
                         class="
                           form-control
                           rounded-pill
-                          border-0
+                          border-1
                           shadow-sm
                           px-4
                           text-primary

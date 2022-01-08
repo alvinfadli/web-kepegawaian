@@ -6,7 +6,7 @@
     header("Location: ../index.php");
     exit;
   }
-  $pegawai = query("SELECT id, nama, alamat, tempatlahir, tanggallahir, pendidikan, namainstitusi, nama_unit
+  $pegawai = query("SELECT id, nama, alamat, tempatlahir, tanggallahir, pendidikan, namainstitusi, nama_unit, pangkat, gaji
   FROM unit JOIN pegawai USING(id_unit) WHERE id='$_SESSION[username]'");
 
 ?>
@@ -131,6 +131,16 @@
                 <td>Nama institusi</td>
                 <td>:</td>
                 <td><?= $row["namainstitusi"];?></td>
+              </tr>
+              <tr>
+                <td>Pangkat</td>
+                <td>:</td>
+                <td><?= $row["pangkat"];?></td>
+              </tr>
+              <tr>
+                <td>Gaji</td>
+                <td>:</td>
+                <td>Rp. <?= $row["gaji"];?></td>
               </tr>
             <?php endforeach;?>
           </table>

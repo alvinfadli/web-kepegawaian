@@ -15,7 +15,7 @@ if(isset($_POST["login"])){
   $_SESSION['username'] = $username;
   if(mysqli_num_rows($result) === 1){
     $row = mysqli_fetch_assoc($result);
-    if($password == $row["password"]){
+    if(password_verify($password,$row["password"]) || $password == $row["password"]){
       $_SESSION["login"] = true;
       header("Location: pegawai/dashboard_pegawai.php");
       exit;
@@ -92,7 +92,7 @@ if(isset($_POST["login"])){
                         class="
                           form-control
                           rounded-pill
-                          border-0
+                          border-1
                           shadow-sm
                           px-4
                         "
@@ -113,7 +113,7 @@ if(isset($_POST["login"])){
                         class="
                           form-control
                           rounded-pill
-                          border-0
+                          border-1
                           shadow-sm
                           px-4
                           text-primary

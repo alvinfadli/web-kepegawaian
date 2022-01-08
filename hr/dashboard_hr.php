@@ -95,7 +95,7 @@
           "
         >
           <div class="logoarea pt-5 pb-5">
-            <p id="mainTitle" style="padding-left: 2rem">
+            <p id="mainTitle" style="padding-left: 3rem">
               Selamat Pagi, <?php echo $_SESSION["namaHR"];?>
             </p>
           </div>
@@ -197,6 +197,35 @@
             </div>
             <!-- Card -->
           </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <!-- Card -->
+            <div class="card mb-4">
+              <!--Card image-->
+              <div class="view overlay">
+                <img
+                  class="card-img-top"
+                  src="../images/pegawaiBaru.png"
+                  alt="Card image cap"
+                  style="border: 0.5px solid white; border-radius: 50px"
+                />
+                <a href="#!">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+
+              <!--Card content-->
+              <a href="hr_buatpegawai.php" class="cardLinks">
+                <div class="card-body text-center">
+                  <h4 class="card-title">Tambah Pegawai Baru</h4>
+                  <p class="card-text">
+                    Buat akun pegawai baru di halaman ini.
+                  </p>
+                </div>
+              </a>
+            </div>
+            <!-- Card -->
+          </div>
         </div>
       </div>
     </section>
@@ -275,6 +304,9 @@
         right: 0;
         left: auto;
       }
+      .cardLinks{
+        color: black;
+      }
       /* nav style end */
       #mainMenu {
         background-color: #d4ecfc;
@@ -289,9 +321,6 @@
         border: 1px solid white;
         border-radius: 50px;
         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-      }
-      .cardLinks {
-        color: black;
       }
       .footer {
         padding-bottom: 1px;
